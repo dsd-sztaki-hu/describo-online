@@ -44,7 +44,7 @@ import {
 } from "./template";
 
 import {createToken, verifyToken} from '../lib/JWTService';
-import {getGateway, authenticate} from '../lib/RevaConnector';
+import {getGateway, authenticate, listContainer} from '../lib/RevaConnector';
 
 import { getLogger } from "../common/logger";
 const log = getLogger();
@@ -60,6 +60,7 @@ export function setupRoutes({ server }) {
     server.post("/folder/create", route(createFolderRouteHandler));
     server.post("/folder/read", route(readFolderRouteHandler));
     server.post("/folder/delete", route(deleteFolderRouteHandler));
+    server.get("/reva/folder/read", route(readRevaDirectory));
     server.get("/definition", route(getTypeDefinitionRouteHandler));
     server.get("/definition/:name", route(getTypeDefinitionRouteHandler));
     server.get("/definition/lookup", route(lookupProfileRouteHandler));
@@ -188,6 +189,31 @@ async function revaAuthentication(req, res, next) {
     res.json({
         token: token
     });
+}
+
+async function readRevaDirectory(req, res) {
+    const fileTreeContainer = [];
+
+    const token = req.headers.authorization.split("reva ").pop();
+    const verified = verifyToken(token);
+
+    const container = await listContainer(getGateway(), req.query.path, (await verified).revaToken);
+
+    // console.log('container', container);
+
+    for (let item of container) {
+        fileTreeContainer.push({
+            path: item.getPath(),
+            name: item.getPath().replace(req.query.path + '/', ''),
+            id: item.getId().getOpaqueId(),
+            size: item.getSize(),
+            modTime: new Date(item.getMtime().getSeconds() * 1000).toLocaleString(),
+            isLeaf: (item.getType() !== 2),
+            children: []
+        });
+    }
+
+    res.json(fileTreeContainer);
 }
 
 async function createRevaSession(req, res, next) {

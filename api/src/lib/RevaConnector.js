@@ -14,6 +14,11 @@ function promisifyAll(client) {
     return to;
 }
 
+export const fileTypes = {
+    directory: 'unix-directory',
+    textFile: 'text/plain'
+}
+
 export function getGateway() {
     return new GatewayAPIClient('reva:19000', grpc.credentials.createInsecure(), {});
 }

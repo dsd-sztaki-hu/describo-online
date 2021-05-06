@@ -31,6 +31,9 @@ export default class AuthService {
 export function setSessionSID({ sid }) {
     window.sessionStorage.setItem(sidProperty, sid);
 }
+export function setRevaSID ({revaSID}) {
+    window.sessionStorage.setItem(revaProperty, revaSID);
+}
 
 export function getSessionSID() {
     let sid, revaSID;

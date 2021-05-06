@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { setSessionSID } from "./auth.service";
+import { setRevaSID } from "./auth.service";
 
 export default {
     data() {
@@ -12,7 +12,11 @@ export default {
         };
     },
     async mounted() {
-        setSessionSID({ sid: this.$route.query.sid });
+        if (this.$route.query.revaSID !== undefined) {
+            setRevaSID({ revaSID: this.$route.query.revaSID });
+        } else {
+            setSessionSID({ sid: this.$route.query.sid });
+        }
         this.$router.replace({ path: "/" });
     },
 };

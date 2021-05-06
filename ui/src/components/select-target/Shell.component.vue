@@ -13,19 +13,31 @@
             </div>
         </div>
         <div class="flex flex-col" v-if="!target.resource || !target.folder">
-            <onedrive-authenticator-component
-                api="/onedrive/configuration"
-                @set-resource="resource = 'onedrive'"
-                v-if="!resource"
-            />
-            <file-browser-component
-                v-if="resource && !selectedFolder"
-                class="m-4"
-                :resource="resource"
-                mode="openDirectory"
-                :enable-file-selector="true"
-                @selected-folder="setSelectedFolder"
-            />
+            <div v-if="type === 'reva'">
+                <reva-file-browser-component
+                    v-if="!selectedFolder"
+                    class="m-4"
+                    :resource="resource"
+                    mode="openDirectory"
+                    :enable-file-selector="true"
+                    @selected-folder="setSelectedFolder"
+                />
+            </div>
+            <div v-else-if="type === 'okta'">
+                <onedrive-authenticator-component
+                    api="/onedrive/configuration"
+                    @set-resource="resource = 'onedrive'"
+                    v-if="!resource"
+                />
+                <file-browser-component
+                    v-if="resource && !selectedFolder"
+                    class="m-4"
+                    :resource="resource"
+                    mode="openDirectory"
+                    :enable-file-selector="true"
+                    @selected-folder="setSelectedFolder"
+                />
+            </div>
         </div>
         <div class="flex flex-row" v-if="target.resource && target.folder">
             <div class="mr-2">Selected Resource:</div>
@@ -41,11 +53,13 @@
 <script>
 import HTTPService from "@/components/http.service";
 import FileBrowserComponent from "@/components/filebrowser/FileBrowser.component.vue";
+import RevaFileBrowserComponent from "@/components/filebrowser-reva/RevaFileBrowser.component.vue";
 import { isMatch } from "lodash";
 
 export default {
     components: {
         FileBrowserComponent,
+        RevaFileBrowserComponent
     },
     data() {
         return {
@@ -58,6 +72,9 @@ export default {
         target: function() {
             return this.$store.state.target;
         },
+        type: function () {
+            return this.$store.state.configuration.services.type;
+        }
     },
     methods: {
         setSelectedFolder(folder) {

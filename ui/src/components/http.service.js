@@ -27,7 +27,6 @@ export default class HTTPService {
         //     authorization =`sid ${accessToken.sid}`;
         // }
 
-        console.log(authorization);
         return {
             authorization,
             "Content-Type": "application/json",
