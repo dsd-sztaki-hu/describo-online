@@ -5,6 +5,11 @@ const { GatewayAPIClient } = require('@cs3org/node-cs3apis/cs3/gateway/v1beta1/g
 const gwMessages = require('@cs3org/node-cs3apis/cs3/gateway/v1beta1/gateway_api_pb');
 const fsMessages = require('@cs3org/node-cs3apis/cs3/storage/provider/v1beta1/provider_api_pb');
 const storageResources = require('@cs3org/node-cs3apis/cs3/storage/provider/v1beta1/resources_pb');
+const cs3types = require('@cs3org/node-cs3apis/cs3/types/v1beta1/types_pb');
+
+const util = require('util'); //tmp
+
+
 function promisifyAll(client) {
     const to = {};
     for (var k in client) {
@@ -72,3 +77,49 @@ export async function listContainer (client, path, authToken) {
     return container.getInfosList();
 }
 
+export async function fileUpload (client, path, authToken, filesize,  protocol = 'simple') {
+    const metadata = new grpc.Metadata();
+    metadata.add('x-access-token', authToken);
+
+    const { initiateFileUpload } = promisifyAll(client);
+
+    const msg1 = new fsMessages.InitiateFileUploadRequest();
+    const ref = new storageResources.Reference();
+
+    ref.setPath('/home/ro-crate-metadata.json');
+    msg1.setRef(ref);
+
+    let opaqueEntry = new cs3types.OpaqueEntry();
+    opaqueEntry.setDecoder('plain');
+    opaqueEntry.setValue(Buffer.from(filesize.toString()));
+
+    let opaque = new cs3types.Opaque();
+    opaque.getMapMap(false).set("Upload-Length", opaqueEntry);
+    msg1.setOpaque(opaque);
+
+    const initiateFileUploadResponse = await initiateFileUpload(msg1, metadata);
+    let protocols = initiateFileUploadResponse.getProtocolsList();
+
+    return protocols.filter((item) => {
+        return item.getProtocol() === protocol;
+    })[0].toObject();
+}
+
+export async function fileDownload(client, path, authToken) {
+    const metadata = new grpc.Metadata();
+    metadata.add('x-access-token', authToken);
+
+    const { initiateFileDownload } = promisifyAll(client);
+    const msg1 = new fsMessages.InitiateFileDownloadRequest();
+    const ref = new storageResources.Reference();
+
+    ref.setPath('/home/ro-crate-metadata.json');
+    msg1.setRef(ref);
+
+    const initiateFileDownloadResponse = await initiateFileDownload(msg1, metadata);
+    let protocols = initiateFileDownloadResponse.getProtocolsList();
+
+    return protocols.filter((item) => {
+        return item.getProtocol() === 'simple';
+    })[0].toObject();
+}

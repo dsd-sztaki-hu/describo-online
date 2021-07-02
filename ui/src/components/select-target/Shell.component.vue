@@ -15,7 +15,7 @@
         <div class="flex flex-col" v-if="!target.resource || !target.folder">
             <div v-if="type === 'reva'">
                 <reva-file-browser-component
-                    v-if="!selectedFolder"
+                    v-if="resource && !selectedFolder"
                     class="m-4"
                     :resource="resource"
                     mode="openDirectory"
@@ -75,6 +75,10 @@ export default {
         type: function () {
             return this.$store.state.configuration.services.type;
         }
+    },
+    mounted: function (){
+        if (this.type === 'reva')
+            this.resource = 'reva';
     },
     methods: {
         setSelectedFolder(folder) {

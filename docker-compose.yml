@@ -67,7 +67,7 @@ services:
 #        command: ["tail", "-f", "/dev/null"]
 
     reva:
-        image: cs3org/revad
+        image: cs3org/revad:v1.7.0
         hostname: reva
         tty: true
         ports:

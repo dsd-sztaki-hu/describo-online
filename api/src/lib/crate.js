@@ -1,5 +1,5 @@
-import { readJSON, writeJSON } from "fs-extra";
 import { flattenDeep, isPlainObject, groupBy, isString, isArray, compact } from "lodash";
+import { writeJson } from "fs-extra";
 import { insertCollection, findCollection } from "./collections";
 import {
     insertEntity,
@@ -23,11 +23,16 @@ const rootDescriptors = ["ro-crate-metadata.json", "ro-crate-metadata.jsonld"];
 export class Crate {
     constructor() {}
 
-    async loadCrateFromFile({ file }) {
-        let collection;
+    async loadCrateFromFile({ file }, readMethod, writeMethod) {
         log.debug(`loading crate file @ ${file}`);
-        let crate = await readJSON(file);
+        let crate = await readMethod(file);
+        const {collection} = this.loadCrate(crate);
+        await writeMethod({ file, crate });
+        return { crate, collection };
+    }
 
+    async loadCrate (crate) {
+        let collection;
         const { rootDataset, rootDescriptor } = this.getRootDataset({ crate });
         // console.log(rootDataset, rootDescriptor);
 
@@ -84,7 +89,6 @@ export class Crate {
             crate = this.updateRootDescriptor({ crate, rootDescriptor });
         }
 
-        await this.writeCrate({ file, crate });
         return { crate, collection };
     }
 

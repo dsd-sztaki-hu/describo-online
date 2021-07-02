@@ -1,4 +1,5 @@
 import { BadRequestError, ConflictError } from "restify-errors";
+import { readJSON } from "fs-extra";
 import {
     listFolder,
     setup,
@@ -112,7 +113,7 @@ export async function loadRouteHandler(req, res, next) {
         });
         ({ crate, collection } = await crateManager.loadCrateFromFile({
             file: localFile,
-        }));
+        }, readJSON, crateManager.writeCrate));
 
         // stamp the current collection id into the session
         log.debug("Setting the collection id in the user session");

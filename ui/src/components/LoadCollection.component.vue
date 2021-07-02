@@ -25,6 +25,9 @@ export default {
         target() {
             return this.$store.state.target;
         },
+        type: function () {
+            return this.$store.state.configuration.services.type;
+        }
     },
     mounted() {
         this.$socket.on("loadRouteHandler", (response) => {
@@ -37,8 +40,9 @@ export default {
     methods: {
         async loadFolder() {
             this.loading = true;
+            let loadUrl = this.type === 'reva' ? '/reva/load' : '/load';
             let response = await this.$http.post({
-                route: "/load",
+                route: loadUrl,
                 body: {
                     resource: this.target.resource,
                     folder: this.target.folder.path,

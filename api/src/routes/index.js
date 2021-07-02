@@ -34,6 +34,7 @@ import {
     postFilesRouteHandler,
 } from "./entity";
 import { loadRouteHandler } from "./load";
+import { loadRevaRouteHandler} from "../lib/revaLoad";
 import {
     getTemplatesRouteHandler,
     getTemplateRouteHandler,
@@ -47,6 +48,7 @@ import {createToken, verifyToken} from '../lib/JWTService';
 import {getGateway, authenticate, listContainer} from '../lib/RevaConnector';
 
 import { getLogger } from "../common/logger";
+import {listFolder} from "../lib/reva-file-browser";
 const log = getLogger();
 
 export function setupRoutes({ server }) {
@@ -68,6 +70,7 @@ export function setupRoutes({ server }) {
     server.post("/profile", route(createProfileRouteHandler));
     server.put("/profile/:profileId", route(updateProfileRouteHandler));
     server.post("/load", route(loadRouteHandler));
+    server.post('/reva/load', route(loadRevaRouteHandler));
     server.post("/entity/lookup", route(findEntityRouteHandler));
     server.get("/entity/:entityId", route(getEntityRouteHandler));
     server.get("/entity/:entityId/properties", route(getEntityPropertiesRouteHandler));
@@ -192,26 +195,10 @@ async function revaAuthentication(req, res, next) {
 }
 
 async function readRevaDirectory(req, res) {
-    const fileTreeContainer = [];
-
     const token = req.headers.authorization.split("reva ").pop();
     const verified = verifyToken(token);
 
-    const container = await listContainer(getGateway(), req.query.path, (await verified).revaToken);
-
-    // console.log('container', container);
-
-    for (let item of container) {
-        fileTreeContainer.push({
-            path: item.getPath(),
-            name: item.getPath().replace(req.query.path + '/', ''),
-            id: item.getId().getOpaqueId(),
-            size: item.getSize(),
-            modTime: new Date(item.getMtime().getSeconds() * 1000).toLocaleString(),
-            isLeaf: (item.getType() !== 2),
-            children: []
-        });
-    }
+    const fileTreeContainer = await listFolder(req.query.path, (await verified).revaToken);
 
     res.json(fileTreeContainer);
 }
