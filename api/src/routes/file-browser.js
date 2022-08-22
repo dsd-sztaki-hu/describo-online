@@ -2,10 +2,11 @@ import { listFolder } from "../lib/file-browser.js";
 import restifyErrorsPkg from "restify-errors";
 const { BadRequestError } = restifyErrorsPkg;
 import { getLogger, route } from "../common/index.js";
+import {createFolder} from "../lib/file-browser_rclone.js";
 const log = getLogger();
 
 export function setupRoutes({ server }) {
-    // server.post("/folder/create", route(createFolderRouteHandler));
+    server.post("/folder/create", route(createFolderRouteHandler));
     server.post("/folder/read", route(readFolderRouteHandler));
     // server.post("/folder/delete", route(deleteFolderRouteHandler));
 }
@@ -31,26 +32,28 @@ export async function readFolderRouteHandler(req, res, next) {
     return next();
 }
 
-// export async function createFolderRouteHandler(req, res, next) {
-//     const { resource, path: folderPath } = req.body;
-//     if (!resource || !folderPath) {
-//         log.error(`createFolderRouterHandler: resource || folderPath not provided`);
-//         return next(new BadRequestError());
-//     }
-//     try {
-//         await createFolder({
-//             session: req.session,
-//             user: req.user,
-//             resource,
-//             folderPath,
-//         });
-//     } catch (error) {
-//         log.error(`createFolderRouterHandler: ${error.message}`);
-//         return next(error);
-//     }
-//     res.send();
-//     return next();
-// }
+export async function createFolderRouteHandler(req, res, next) {
+    log.debug("REQ: ", req.body)
+    const { resource, path: folderPath } = req.body;
+    log.debug("RES: ", resource, "PATH: ", folderPath)
+    if (!resource || !folderPath) {
+        log.error(`createFolderRouterHandler: resource || folderPath not provided`);
+        return next(new BadRequestError());
+    }
+    try {
+        await createFolder({
+            session: req.session,
+            user: req.user,
+            resource,
+            folderPath,
+        });
+    } catch (error) {
+        log.error(`createFolderRouterHandler: ${error.message}`);
+        return next(error);
+    }
+    res.send();
+    return next();
+}
 
 // export async function deleteFolderRouteHandler(req, res, next) {
 //     const { resource, path: folderPath } = req.body;

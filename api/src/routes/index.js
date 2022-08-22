@@ -7,6 +7,7 @@ import { setupRoutes as setupSessionRoutes } from "./session.js";
 import { setupRoutes as setupProfileRoutes } from "./profile.js";
 import { setupRoutes as setupEntityRoutes } from "./entity.js";
 import { setupRoutes as setupTemplateRoutes } from "./template.js";
+import { setupRoutes as setupUploadRoutes } from "./file-uploader.js";
 const log = getLogger();
 
 export function setupRoutes({ server }) {
@@ -18,6 +19,7 @@ export function setupRoutes({ server }) {
     setupProfileRoutes({ server });
     setupEntityRoutes({ server });
     setupTemplateRoutes({ server });
+    setupUploadRoutes({ server });
     server.get("/configuration", getConfiguration);
     if (process.env.NODE_ENV === "development") {
         // this is only for development of the capability to post back on save

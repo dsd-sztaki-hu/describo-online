@@ -41,6 +41,11 @@ const routes = [
                         path: "templates",
                         component: ManageCollectionShellComponent,
                     },
+                    {
+                        name: "uploads",
+                        path: "uploads",
+                        component: ManageCollectionShellComponent,
+                    },
                 ],
             },
         ],

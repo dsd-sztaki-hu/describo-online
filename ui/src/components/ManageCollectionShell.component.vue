@@ -30,6 +30,9 @@
             <el-tab-pane label="Manage Templates" name="templates">
                 <template-list-component v-if="activeTab === 'templates'" />
             </el-tab-pane>
+            <el-tab-pane label="Upload Files" name="uploads">
+              <file-upload-component v-if="activeTab === 'uploads'" />
+            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -42,6 +45,7 @@ import LoadCollectionComponent from "@/components/LoadCollection.component.vue";
 import RenderEntityComponent from "@/components/manage-entities/RenderEntity.component.vue";
 import EntityListManagerComponent from "@/components/entity-list/Shell.component.vue";
 import TemplateListComponent from "@/components/template-list/TemplateList.component.vue";
+import FileUploadComponent from "@/components/file-upload/FileUpload.component.vue";
 import { restoreSessionTarget } from "./session-handlers";
 import { ref, computed, watch, onMounted, nextTick } from "vue";
 import { useStore } from "vuex";
