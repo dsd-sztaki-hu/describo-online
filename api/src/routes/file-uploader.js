@@ -2,11 +2,22 @@ import { route } from "../common/index.js";
 import * as fs from 'fs';
 import fetch from "node-fetch";
 
-
 export async function setupRoutes({ server }) {
-	server.post("/upload", route(uploadFile));
+	server.post("/upload", route(handleUpload));
 }
 
+export async function handleUpload(req, res, next) {
+		for (var key in req.files) {
+			if (req.files.hasOwnProperty(key)) {
+				console.log("content: "+fs.readFileSync(req.files[key].path))
+			}
+		}
+		res.send(202, { message: 'File uploaded' });
+
+		return next();
+}
+
+// This is for client side
 export async function uploadFile(req, res, next) {
 	let blob = await fetch(req.body.file.url, {
 		method: 'GET',
