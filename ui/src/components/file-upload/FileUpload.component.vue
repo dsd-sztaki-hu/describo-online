@@ -294,6 +294,9 @@
 </template>
 
 <style>
+div.table-responsive {
+  overflow: clip;
+}
 .upload-tab .btn-group .dropdown-menu {
   display: block;
   visibility: hidden;
