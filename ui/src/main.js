@@ -120,3 +120,36 @@ function enableReva({ app, log, configuration }) {
         });
     }
 }
+
+// Make sure the upload identifier hash is propageted to any url we navigate to
+let hash = ""
+
+;(function() {
+    var pushState = history.pushState;
+    var replaceState = history.replaceState;
+
+    history.pushState = function() {
+        pushState.apply(history, arguments);
+        window.dispatchEvent(new Event('pushstate'));
+        window.dispatchEvent(new Event('locationchange'));
+    };
+
+    history.replaceState = function() {
+        replaceState.apply(history, arguments);
+        window.dispatchEvent(new Event('replacestate'));
+        window.dispatchEvent(new Event('locationchange'));
+    };
+
+    window.addEventListener('popstate', function() {
+        window.dispatchEvent(new Event('locationchange'))
+    });
+})();
+
+window.addEventListener('locationchange', function(){
+    if (window.location.hash.length != 0) {
+        hash = window.location.hash
+    }
+    if (hash.length != 0) {
+        window.location.hash = hash;
+    }
+})

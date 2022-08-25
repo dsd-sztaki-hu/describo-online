@@ -81,12 +81,29 @@ export async function selectNewTarget() {
 }
 
 export async function setLocalTarget() {
-    await $http.post({ route: "/session/configuration/local", body: {} });
+    const response = await $http.post({
+        route: "/session/configuration/local",
+        body: {
+            "uploadFolder":
+            window.location.hash.length > 1 ? window.location.hash.substring(1) : undefined
+        }
+    });
 
     store.commit("setTargetResource", {
         resource: "local",
         folder: undefined,
     });
+
+    // If received an uploadFolder, use this as the URL fragment to identify this editing session
+    if (response.status !== 200) {
+        console.log(response);
+        return this.handleError({ response });
+    } else {
+        const res = await response.json();
+        if (res.uploadFolder) {
+            window.location.hash = res.uploadFolder
+        }
+    }
 }
 
 export async function loadCollection({ clientId }) {

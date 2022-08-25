@@ -30,7 +30,7 @@
             <el-tab-pane label="Manage Templates" name="templates">
                 <template-list-component v-if="activeTab === 'templates'" />
             </el-tab-pane>
-            <el-tab-pane label="Upload Files" name="uploads">
+            <el-tab-pane label="Upload Files" name="uploads" v-if="store.state.session.service.local?.uploadFolder">
               <file-upload-component v-if="activeTab === 'uploads'" />
             </el-tab-pane>
         </el-tabs>

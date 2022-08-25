@@ -4,8 +4,11 @@
             <div>Select a resource to work with</div>
 
             <div class="flex flex-row space-x-1">
-                <div v-if="localEnabled">
+                <div v-if="localEnabled && !localUploadEnabled">
                     <el-button @click="setLocalTarget" type="primary">My Computer</el-button>
+                </div>
+                <div v-if="localUploadEnabled">
+                    <el-button @click="setLocalTarget" type="primary">Upload</el-button>
                 </div>
                 <onedrive-authenticator-component v-if="onedriveEnabled" />
                 <owncloud-authenticator-component v-if="owncloudEnabled" />
@@ -69,6 +72,14 @@ const revaEnabled = computed(() => {
 const localEnabled = computed(() => {
     return configuration.services?.localhost ? true : false;
 });
+const localUploadEnabled = computed(() => {
+    console.log("configuration.services?.localhost", configuration.services?.localhost)
+    console.log("configuration.services?.localhost2", configuration.services?.localhost === 'object')
+    console.log("configuration.services?.localhost.allowUpload", configuration.services?.localhost.allowUpload)
+    console.log("configuration.services?.localhost.allowUpload == true", configuration.services?.localhost.allowUpload == true)
+    //return configuration.services?.localhost === 'object' && configuration.services?.localhost?allowUpload == true;
+    return configuration.services?.localhost?.allowUpload == true;
+})
 onMounted(() => {
     init();
 });

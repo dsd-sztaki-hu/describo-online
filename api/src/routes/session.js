@@ -16,6 +16,8 @@ import { createUser, createUserSession } from "../lib/user.js";
 import { getOwncloudOauthToken } from "../lib/backend-owncloud.js";
 import { whoami } from "../lib/file-browser_reva-api.js";
 import { loadInstalledProfiles } from "../lib/profile.js";
+import {createFolder} from "../lib/file-browser_rclone.js";
+import  * as crypto from "crypto";
 
 const log = getLogger();
 
@@ -242,6 +244,43 @@ export async function saveServiceConfigurationHandler(req, res, next) {
         config: req.body,
         serviceName: req.params.service,
     });
+
+    // In case of local resource create the uploadFolder if not already exists
+    const config = req.body
+    const resource = req.url.substring(req.url.lastIndexOf('/') + 1)
+    if (resource === "local" && !config.uploadFolder) {
+        const dir = crypto.randomUUID()
+        try {
+            // reload session updated by previous saveServiceConfigurationToSession
+            // so that we can invoke createFolder
+            let session = await models.session.findOne({
+                where: { id: req.session.id },
+            });
+
+            await createFolder({
+                session: session,
+                user: req.user,
+                resource,
+                folderPath: "/home/"+dir
+            });
+
+            await saveServiceConfigurationToSession({
+                sessionId: req.session.id,
+                config: {...req.body, uploadFolder: dir},
+                serviceName: req.params.service,
+            });
+
+            res.send({uploadFolder: dir});
+            return next();
+        } catch (error) {
+            log.error(`saveServiceConfigurationHandler: ${error.message}`);
+            return next(error);
+        }
+    }
+    // Check whether uploadFolder is valid
+    else {
+        // TODO
+    }
     res.send({});
     next();
 }
