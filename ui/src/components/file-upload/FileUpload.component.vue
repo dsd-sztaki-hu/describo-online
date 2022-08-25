@@ -82,6 +82,7 @@
           <file-upload
               class="btn btn-primary dropdown-toggle"
               :post-action="postAction"
+              :custom-action="customAction"
               :extensions="extensions"
               :accept="accept"
               :multiple="multiple"
@@ -377,6 +378,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {getToken} from "../http.service"
 import FileUpload from 'vue-upload-component'
+
 export default {
   components: {
     FileUpload,
@@ -392,12 +394,12 @@ export default {
       // minSize: 1024,
       // size: 1024 * 1024 * 100,
       multiple: true,
-      directory: false,
+      directory: true,
       drop: true,
       dropDirectory: true,
-      createDirectory: false,
-      addIndex: false,
-      thread: 3,
+      createDirectory: true,
+      addIndex: true,
+      html5: true,
       name: 'file',
       postAction: '/api/upload',
       headers: {
@@ -423,6 +425,33 @@ export default {
       editFile: {
         show: false,
         name: '',
+      },
+
+      // Custom action to have the full (relative) path of field included in the upload and not just
+      // the file name
+      customAction: async function customAction(file, component) {
+        // This is copied from component.uploadHtml5 to fix the filename setting
+        const form = new window.FormData()
+        let value
+        for (const key in file.data) {
+          value = file.data[key]
+          if (value && typeof value === 'object' && typeof value.toString !== 'function') {
+            if (value instanceof File) {
+              form.append(key, value, value.name)
+            } else {
+              form.append(key, JSON.stringify(value))
+            }
+          } else if (value !== null && value !== undefined) {
+            form.append(key, value)
+          }
+        }
+        // Moved file.name as the first option to set the filenname of the uploaded file, since file.name
+        // contains the full (relative) path of the file not just the filename as file.file.filename
+        // @ts-ignore
+        form.append(this.name, file.file, file.name || file.file.name || file.file.filename)
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', file.postAction || '')
+        return component.uploadXhr(xhr, file, form)
       }
     }
   },
