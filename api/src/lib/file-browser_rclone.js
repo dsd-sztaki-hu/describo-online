@@ -40,15 +40,15 @@ export async function listFolder({ session, user, resource, folderPath }) {
     }
 }
 
-// export async function createFolder({ session, user, resource, folderPath }) {
-//     let cwd = await setup({ user, session, resource });
-//     try {
-//         let args = ["mkdir", `${resource}:${folderPath}`];
-//         await runCommand({ cwd, args });
-//     } catch (error) {
-//         handleError(error);
-//     }
-// }
+export async function createFolder({ session, user, resource, folderPath }) {
+    let cwd = await setup({ user, session, resource });
+    try {
+        let args = ["mkdir", `${resource}:${folderPath}`];
+        await runCommand({ cwd, args });
+    } catch (error) {
+        handleError(error);
+    }
+}
 
 // export async function deleteFolder({ session, user, resource, folderPath }) {
 //     let cwd = await setup({ user, session, resource });

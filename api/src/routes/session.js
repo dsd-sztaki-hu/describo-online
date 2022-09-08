@@ -261,6 +261,7 @@ export async function updateServiceConfigurationFolderHandler(req, res, next) {
     let service = session.data.service[req.params.service];
     if (req.body.folder) {
         service.folder = req.body.folder;
+        service.dvPersistentId = req.body.dvPersistentId;
     } else {
         delete service.folder;
     }

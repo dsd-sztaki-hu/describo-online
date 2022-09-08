@@ -22,6 +22,8 @@ onMounted(() => {
     removeToken();
     if (login === "localhost") {
         loginLocalUser();
+    } else if (login === "dataverse") {
+      tempLoginDataverseUser();
     }
 });
 
@@ -32,5 +34,15 @@ async function loginLocalUser() {
         setToken({ token });
         router.push("/select-target");
     }
+}
+
+// temporary login for testing purposes
+async function tempLoginDataverseUser() {
+  let response = await $http.post({ route: "/authenticate/dataverse", body: {} });
+  if (response.status === 200) {
+    let { token } = await response.json();
+    setToken({ token });
+    router.push("/select-target");
+  }
 }
 </script>

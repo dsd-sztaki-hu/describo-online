@@ -53,6 +53,7 @@ export async function loadRouteHandler(req, res, next) {
 
     const resource = req.params.service;
     const folder = req.session.data.service[resource].folder;
+    const dvPersistentId = req.session.data.service[resource].dvPersistentId;
     if (!resource || !folder) {
         return next(new BadRequestError(`Must specify 'resource' and 'folder'`));
     }
@@ -68,6 +69,7 @@ export async function loadRouteHandler(req, res, next) {
             user: req.user,
             resource,
             folderPath: folder,
+            persistentId: dvPersistentId,
         });
         let crateFile = content.filter((e) => validCrateFileNames.includes(e.name));
 
@@ -115,6 +117,7 @@ export async function loadRouteHandler(req, res, next) {
                 resource,
                 parent: crateFile.parent,
                 name: crateFile.name,
+                id: crateFile.id,
             });
         }
 
@@ -167,9 +170,11 @@ export async function loadRouteHandler(req, res, next) {
         await syncLocalFileToRemote({
             session: req.session,
             user: req.user,
-            resource,
+            resource: resource,
             parent: crateFile.parent,
-            localFile,
+            localFile: localFile,
+            id: crateFile.id,
+            persistentId: crateFile.persistentId,
         });
 
         //  load the crate into the database

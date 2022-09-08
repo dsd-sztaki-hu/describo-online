@@ -317,7 +317,7 @@ export class Crate {
         await writeJSON(localFile, crate, { spaces: 2 });
 
         // sync it back to the remote
-        syncLocalFileToRemote({
+        await syncLocalFileToRemote({
             session,
             user,
             resource,

@@ -21,11 +21,13 @@ export async function restoreSessionTarget() {
         let resource = Object.keys(session?.service).pop();
         if (resource) {
             let folder = session.service[resource]?.folder;
+            let dvPersistentId = session.service[resource]?.dvPersistentId;
             store.commit("setTargetResource", { resource });
             if (folder) {
                 store.commit("setTargetResource", {
                     resource,
                     folder,
+                    dvPersistentId
                 });
 
                 store.commit("setSelectedEntity", {
@@ -52,16 +54,17 @@ export async function restoreSessionProfile() {
     }
 }
 
-export async function setFolderAndSaveToSession({ folder }) {
+export async function setFolderAndSaveToSession({ folder, dvPersistentId }) {
     const resource = store.state.target.resource;
 
     store.commit("setTargetResource", {
         resource,
         folder,
+        dvPersistentId,
     });
     await $http.put({
         route: `/session/configuration/${resource}/update-folder`,
-        body: { folder },
+        body: { folder, dvPersistentId },
     });
     if (folder) {
         router.push({ path: "/collection/build", query: { eid: "RootDataset" } }).catch(() => {});
@@ -87,6 +90,25 @@ export async function setLocalTarget() {
         resource: "local",
         folder: undefined,
     });
+}
+
+export async function selectDataverse() {
+    // let response = await $http.post({
+    //     route: "/session/dataverse",
+    //     body: {
+    //         email: "user@dataverse.com",
+    //         name: "Dataverse User"
+    //     },
+    // });
+
+    store.commit("setTargetResource", {
+        resource: "dataverse",
+        folder: undefined,
+    });
+
+    // if (response.status !== 200) {
+    //     console.log("Error during creating Dataverse session")
+    // }
 }
 
 export async function loadCollection({ clientId }) {

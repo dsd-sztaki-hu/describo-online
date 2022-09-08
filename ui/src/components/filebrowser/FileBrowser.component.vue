@@ -52,6 +52,8 @@ import InformationComponent from "../Information.component.vue";
 import { ElMessage } from "element-plus";
 import { ref, reactive, inject, onMounted, h } from "vue";
 const $http = inject("$http");
+import { useStore } from "vuex";
+const store = useStore();
 
 const emit = defineEmits(["selected-folder", "selected-nodes"]);
 
@@ -110,18 +112,26 @@ async function loadNode(node, resolve) {
     state.loading = true;
     let content;
     if (node.level === 0) {
-        await load({ resolve });
+        const dvPersistentId = store.state.target.dvPersistentId
+        const dvId = node.data.id
+
+        await load({ resolve, persistentId: dvPersistentId, id: dvId });
     } else if (node.level !== 0) {
         if (node.isLeaf) resolve();
 
         const path = node.data.parent ? `${node.data.parent}/${node.data.path}` : node.data.path;
-        await load({ resolve, path });
+        const dvPersistentId = node.data.persistentId
+        const dvId = node.data.id
+
+        await load({ resolve, path: path, persistentId: dvPersistentId, id: dvId });
     }
     state.loading = false;
 }
-async function load({ resolve, path }) {
+async function load({ resolve, path, persistentId, id }) {
     let body = {
         resource: props.resource,
+        persistentId: persistentId,
+        id: id
     };
     if (props.root && path) {
         body.path = path;
@@ -163,10 +173,11 @@ async function handleNodeSelection() {
         let node = tree.value.getCheckedNodes()[0];
         const path = node.parent ? `${node.parent}/${node.path}` : node.path;
         const id = node.id;
+        const dvPersistentId = node.persistentId;
         if (startsWith(path, "/")) {
-            emit("selected-folder", { path: `${path}`, id });
+            emit("selected-folder", { path: `${path}`, id, dvPersistentId });
         } else {
-            emit("selected-folder", { path: `/${path}`, id });
+            emit("selected-folder", { path: `/${path}`, id, dvPersistentId });
         }
     } else {
         await debouncedAddParts();

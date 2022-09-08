@@ -7,6 +7,7 @@ export async function setupRoutes({ server }) {
     server.get("/authenticated/admin", routeAdmin(isAuthenticated));
     server.post("/authenticate/reva", authenticateToRevaHandler);
     server.post("/authenticate/local", authenticateLocalUser);
+    server.post("/authenticate/dataverse", tempAuthenticateDataverseUser);
 }
 
 async function isAuthenticated(req, res, next) {
@@ -30,6 +31,24 @@ export async function authenticateLocalUser(req, res, next) {
     await createUserSession({
         email,
         data: {},
+        token,
+        expiry,
+    });
+    res.send({ token });
+}
+
+// temporary login for testing purposes
+export async function tempAuthenticateDataverseUser(req, res, next) {
+    let configuration = await loadConfiguration();
+    const name = "Dataverse User";
+    const email = "email@dataverse.com";
+    let user = await createUser({ name, email });
+    let { token, expiry } = await generateToken({ configuration, user });
+    await createUserSession({
+        email,
+        data: {
+            service: configuration.ui.services
+        },
         token,
         expiry,
     });

@@ -8,10 +8,11 @@ import { orderBy } from "lodash-es";
 import { getLogger } from "../common/index.js";
 import * as rclone from "./file-browser_rclone.js";
 import * as revaapi from "./file-browser_reva-api.js";
+import * as dataverse from "./file-browser_dataverse.js";
 const log = getLogger();
 const localCachePath = "/srv/tmp";
 
-export async function listFolder({ session, user, resource, folderPath }) {
+export async function listFolder({ session, user, resource, folderPath, persistentId, id }) {
     let { configuration } = await setup({ user, session, resource });
 
     try {
@@ -21,6 +22,15 @@ export async function listFolder({ session, user, resource, folderPath }) {
                 gateway: configuration.gateway,
                 token: configuration.token,
                 folder: folderPath,
+            });
+            return orderBy(content.entries, "name");
+        } else if (resource === "dataverse") {
+            content = await dataverse.listFolder({
+                persistentId: persistentId,
+                id: id,
+                host: configuration.host,
+                root: configuration.rootDataverse,
+                apiKey: configuration.apiKey
             });
             return orderBy(content.entries, "name");
         } else {
@@ -33,7 +43,7 @@ export async function listFolder({ session, user, resource, folderPath }) {
     }
 }
 
-export async function syncRemoteFileToLocal({ session, user, resource, parent, name }) {
+export async function syncRemoteFileToLocal({ session, user, resource, parent, name, id }) {
     let { workingDirectory, configuration } = await setup({ user, session, resource });
 
     let localPath;
@@ -45,6 +55,14 @@ export async function syncRemoteFileToLocal({ session, user, resource, parent, n
                 remoteFile: path.join(parent, name),
                 localFile: path.join(workingDirectory, "current", name),
             });
+        } if (resource === "dataverse") {
+            localPath = await dataverse.downloadFile({
+                host: configuration.host,
+                apiKey: configuration.apiKey,
+                remoteFile: path.join(parent, name),
+                localFile: path.join(workingDirectory, "current", name),
+                id: id,
+            })
         } else {
             localPath = await rclone.syncRemoteFileToLocal({
                 session,
@@ -60,7 +78,7 @@ export async function syncRemoteFileToLocal({ session, user, resource, parent, n
     }
 }
 
-export async function syncLocalFileToRemote({ session, user, resource, parent, localFile }) {
+export async function syncLocalFileToRemote({ session, user, resource, parent, localFile, id, persistentId }) {
     let { configuration } = await setup({ user, session, resource });
 
     try {
@@ -70,6 +88,15 @@ export async function syncLocalFileToRemote({ session, user, resource, parent, l
                 token: configuration.token,
                 remoteFile: path.join(parent, "ro-crate-metadata.json"),
                 localFile,
+            });
+        } else if (resource === "dataverse") {
+            await dataverse.uploadFile({
+                host: configuration.host,
+                apiKey: configuration.apiKey,
+                localFile: localFile,
+                id: id,
+                persistentId: persistentId,
+                session: session
             });
         } else {
             await rclone.syncLocalFileToRemote({

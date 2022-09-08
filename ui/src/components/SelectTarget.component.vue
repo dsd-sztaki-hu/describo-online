@@ -7,6 +7,12 @@
                 <div v-if="localEnabled">
                     <el-button @click="setLocalTarget" type="primary">My Computer</el-button>
                 </div>
+                <div v-if="localUploadEnabled">
+                    <el-button @click="setLocalTarget" type="primary">Upload</el-button>
+                </div>
+                <div v-if="dataverseEnabled">
+                  <el-button @click="selectDataverse" type="primary">Select dataverse</el-button>
+                </div>
                 <onedrive-authenticator-component v-if="onedriveEnabled" />
                 <owncloud-authenticator-component v-if="owncloudEnabled" />
                 <s3-authenticator-component v-if="s3Enabled" />
@@ -40,6 +46,7 @@ import {
     setFolderAndSaveToSession,
     setLocalTarget,
     selectNewTarget,
+    selectDataverse,
 } from "./session-handlers";
 
 import { onMounted, computed } from "vue";
@@ -69,6 +76,17 @@ const revaEnabled = computed(() => {
 const localEnabled = computed(() => {
     return configuration.services?.localhost ? true : false;
 });
+const dataverseEnabled = computed(() => {
+  return configuration.services?.dataverse ? true : false;
+})
+const localUploadEnabled = computed(() => {
+    console.log("configuration.services?.localhost", configuration.services?.localhost)
+    console.log("configuration.services?.localhost2", configuration.services?.localhost === 'object')
+    console.log("configuration.services?.localhost.allowUpload", configuration.services?.localhost?.allowUpload)
+    console.log("configuration.services?.localhost.allowUpload == true", configuration.services?.localhost?.allowUpload == true)
+    //return configuration.services?.localhost === 'object' && configuration.services?.localhost?allowUpload == true;
+    return configuration.services?.localhost?.allowUpload === true;
+})
 onMounted(() => {
     init();
 });
@@ -76,6 +94,6 @@ async function init() {
     await restoreSessionTarget();
 }
 async function setSelectedFolder(folder) {
-    await setFolderAndSaveToSession({ folder: folder.path });
+    await setFolderAndSaveToSession({ folder: folder.path, dvPersistentId: folder.dvPersistentId });
 }
 </script>

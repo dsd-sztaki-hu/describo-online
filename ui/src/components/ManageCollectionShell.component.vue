@@ -84,11 +84,12 @@ onMounted(() => {
     init();
 });
 async function init() {
-    await restoreSessionTarget();
-    nextTick(() => {
-        if (!target?.value?.resource || !target?.value?.folder) {
-            router.push({ path: "/select-target" }).catch(() => {});
-        }
+  await restoreSessionTarget();
+  await nextTick(() => {
+      if (!target?.value?.resource || !target?.value?.folder) {
+          router.push({path: "/select-target"}).catch(() => {
+        });
+      }
     });
 }
 function updateRoute(tab) {
