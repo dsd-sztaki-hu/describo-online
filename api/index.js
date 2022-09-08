@@ -12,6 +12,7 @@ import { Server } from "socket.io";
 import fetchPkg from "node-fetch";
 const fetch = fetchPkg;
 import path from "path";
+import corsMiddleware from "restify-cors-middleware2";
 
 // DEVELOPER NOTE
 //
@@ -42,6 +43,21 @@ import path from "path";
         req.io = io;
         return next();
     });
+    const cors = corsMiddleware({
+        origins: ['*'],
+        allowCredentialsAllOrigins: true
+    });
+    server.pre((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Methods', '*');
+        res.header('Access-Control-Allow-Headers', '*');
+        if (req.method === 'OPTIONS') {
+            return res.send(200);
+        }
+        next();
+    });
+    // server.pre(cors.preflight)
+    server.use(cors.actual)
     server.use(restify.plugins.dateParser());
     server.use(restify.plugins.queryParser());
     server.use(restify.plugins.jsonp());
