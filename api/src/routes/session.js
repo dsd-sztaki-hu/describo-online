@@ -158,6 +158,8 @@ export async function createApplicationSession(req, res, next) {
             service.s3 = assembleS3Configuration({ params: req.body.service.s3 });
         } else if (req.body.service?.local) {
             service.local = { provider: "local", folder: req.body.service.local.folder };
+        } else if (req.body.service?.dataverse) {
+            service.dataverse = req.body.service.dataverse
         }
         data.service = service;
 

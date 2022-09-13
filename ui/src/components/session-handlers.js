@@ -23,7 +23,7 @@ export async function restoreSessionTarget() {
             let folder = session.service[resource]?.folder;
             let dvPersistentId = session.service[resource]?.dvPersistentId;
             store.commit("setTargetResource", { resource });
-            if (folder) {
+            if (folder || dvPersistentId) {
                 store.commit("setTargetResource", {
                     resource,
                     folder,
