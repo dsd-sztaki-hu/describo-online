@@ -10,6 +10,7 @@ const server = restify.createServer();
 const log = getLogger();
 import { Server } from "socket.io";
 import fetchPkg from "node-fetch";
+import corsMiddleware from "restify-cors-middleware2";
 const fetch = fetchPkg;
 import path from "path";
 import corsMiddleware from "restify-cors-middleware2";
@@ -59,6 +60,17 @@ import corsMiddleware from "restify-cors-middleware2";
     // server.pre(cors.preflight)
     server.use(cors.actual)
     server.use(restify.plugins.dateParser());
+    if (process.env.NODE_ENV === "development") {
+        const cors = corsMiddleware({
+            preflightMaxAge: 5, //Optional
+            origins: ["http://localhost:8080"],
+            allowHeaders: ["Content-Type", "Authorization"],
+            exposeHeaders: ["Content-Type", "Authorization"],
+        });
+
+        server.pre(cors.preflight);
+        server.use(cors.actual);
+    }
     server.use(restify.plugins.queryParser());
     server.use(restify.plugins.jsonp());
     server.use(restify.plugins.gzipResponse());
@@ -95,7 +107,7 @@ import corsMiddleware from "restify-cors-middleware2";
 async function runPeriodicProcesses() {
     for (let process of Object.keys(periodicProcesses)) {
         log.info(`Kick off: ${process}`);
-        periodicProcesses[process]();
+        await periodicProcesses[process]();
     }
 }
 

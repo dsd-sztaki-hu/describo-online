@@ -9,7 +9,7 @@ import {
     getEntity,
     getEntityProperties,
 } from "./entities.js";
-import { loadClassDefinition, loadProfile } from "./profile.js";
+import { loadClassDefinition } from "./profile.js";
 import models from "../models/index.js";
 import { syncLocalFileToRemote } from "../lib/file-browser.js";
 import fetch from "node-fetch";
@@ -194,7 +194,6 @@ export class Crate {
         const entitiesById = groupBy(entities, "@id");
         i = 0;
         for (let entity of entities) {
-            // let profile = await loadProfile({ file: this.profile.file });
             const typeDefinition = await loadClassDefinition({
                 classNames: [entity["@type"]],
                 profile: this.profile,
@@ -228,7 +227,7 @@ export class Crate {
                     } else if (isPlainObject(value) && "@id" in value) {
                         let tgtEntityId = entitiesById[value["@id"]];
                         if (tgtEntityId && tgtEntityId.length) {
-                            tgtEntityId = tgtEntityId.pop().uuid;
+                            tgtEntityId = tgtEntityId[0].uuid;
                             await associate({
                                 typeDefinition: propertyDefinition,
                                 collectionId: collection.id,
