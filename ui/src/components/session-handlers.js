@@ -144,6 +144,6 @@ export async function getProfiles() {
 }
 
 export async function setProfile({ profile }) {
-    store.commit("setProfile", profile);
     await $http.post({ route: "/profile", body: { profile } });
+    store.commit("setProfile", profile);
 }
