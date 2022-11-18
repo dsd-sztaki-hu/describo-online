@@ -1,0 +1,44 @@
+{
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "ro-crate-metadata.json",
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      },
+      "identifier": [
+        {
+          "@id": "#:localid:describo:bf596bf1-9469-4806-93f2-53ff7b619eaa"
+        }
+      ]
+    },
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "name": "my Research Object Crate",
+      "Study_ID": [
+        "Example Study ID"
+      ],
+      "Study_Title": [
+        "Example Study Title"
+      ],
+      "Study_Type": [
+        "Example Study Type"
+      ],
+      "Contact_Information": [
+        "Example Contact Info"
+      ],
+      "Contact_Email": [
+        "example@mail.com"
+      ],
+      "Lab_Name": [
+        "Example Lab Name"
+      ],
+      "@reverse": {}
+    }
+  ]
+}

@@ -39,8 +39,8 @@ export class Crate {
 
     async loadCrateFromFile({ file }) {
         let collection;
-        log.debug(`loading crate file @ ${file}`);
-        let crate = await readJSON(file);
+        log.debug("loading crate file @ /srv/fake-ro-crate/ro-crate-metadata.json");
+        let crate = await readJSON("/srv/fake-ro-crate/ro-crate-metadata.json");
 
         const { rootDataset, rootDescriptor } = this.getRootDataset({ crate });
 

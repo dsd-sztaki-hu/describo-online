@@ -64,6 +64,7 @@ services:
             ADMIN_PASSWORD: "adminpass"
         volumes:
             - ./api:/srv/api:delegated
+            - ./fake-ro-crate:/srv/fake-ro-crate
             - ./profiles:/srv/profiles:delegated
             - ./testing-profiles:/srv/testing-profiles:delegated
             - ./configuration:/srv/api/configuration
