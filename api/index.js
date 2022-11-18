@@ -47,7 +47,7 @@ import path from "path";
     if (process.env.NODE_ENV === "development") {
         const cors = corsMiddleware({
             preflightMaxAge: 5, //Optional
-            origins: ["http://localhost:8080"],
+            origins: ["*"],
             allowHeaders: ["Content-Type", "Authorization"],
             exposeHeaders: ["Content-Type", "Authorization"],
         });
