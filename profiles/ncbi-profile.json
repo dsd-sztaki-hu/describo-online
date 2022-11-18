@@ -1,0 +1,751 @@
+{
+  "metadata": {
+    "name": "Cedar to Describo generated profile",
+    "version": 1.0,
+    "description": "Generated Describo schema from a Cedar template",
+    "warnMissingProperty": true
+  },
+  "layouts": {
+    "Dataset": [
+      {
+        "name": "NCBI_BioProject_for_Human_Tissue",
+        "description": "",
+        "inputs": [
+          "Study_ID",
+          "Study_Title",
+          "Study_Type",
+          "Study_Criteria",
+          "Contact_Information",
+          "Contact_Email",
+          "Lab_Name",
+          "Lab_Address",
+          "Relevant_Publications"
+        ]
+      },
+      {
+        "name": "NCBI_BioSample_for_Human_Tissue",
+        "description": "",
+        "inputs": [
+          "Sample_Name",
+          "Sample_Title",
+          "Organism",
+          "Isolate",
+          "Age",
+          "Biomaterial_Provider",
+          "Sex",
+          "Tissue",
+          "Cell_Line",
+          "Cell_Type",
+          "Cell_Subtype",
+          "Culture_Collection",
+          "Development_Stage",
+          "Disease",
+          "Disease_Stage",
+          "Ethnicity",
+          "Health_State",
+          "Karyotype",
+          "Phenotype",
+          "Population",
+          "Race",
+          "Sample_Type",
+          "Treatment",
+          "Sample_Description"
+        ]
+      },
+      {
+        "name": "NCBI_SRA_for_Human_Tissue",
+        "description": "",
+        "inputs": [
+          "Sample_Name_sra",
+          "Library_ID",
+          "Title",
+          "Library_Strategy",
+          "Library_Source",
+          "Library_Selection",
+          "Library_Layout",
+          "Platform",
+          "Instrument_Model",
+          "Design_Description",
+          "Optional_SRA_Attribute",
+          "File_Type",
+          "File_Name"
+        ]
+      },
+      {
+        "name": "Notations_for_NCBI_Human_Element",
+        "description": "",
+        "inputs": [
+          "Template_Annotations",
+          "User_Annotations"
+        ]
+      }
+    ]
+  },
+  "classes": {
+    "Dataset": {
+      "definition": "override",
+      "subClassOf": [],
+      "inputs": [
+        {
+          "id": "https://schema.metadatacenter.org/properties/e2303235-ec20-4f88-a25c-3e04c0e3dbfe",
+          "name": "Release_Date",
+          "label": "Release Date",
+          "help": "The date upon which all the submissions in this metadata form will be made publicly visible by NCBI. If this field is empty, submissions will be released immediately. (Note that release of an SRA submission also forces the release of referenced BioSample submission entries, and in turn release of the referenced BioProject.)",
+          "type": [
+            "Date"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/88119527-3676-4ff8-9889-4e711d1d6e9a",
+          "name": "Study_ID",
+          "label": "Study ID",
+          "help": "Permanent identifier for each study (Example: 'PRJNA349')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/a763c102-e6f1-441a-b171-ca6141ef98d0",
+          "name": "Study_Title",
+          "label": "Study Title",
+          "help": "Descriptive study title (Example: 'Effects of sun light exposure of the Treg repertoire')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/a187b4f5-e242-4719-a214-f611d0f1a066",
+          "name": "Study_Type",
+          "label": "Study Type",
+          "help": "Generic study design (Example: 'Controlled clinical trial'",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "http://scdontology.h3abionet.org/ontology/SCDO_0001033",
+          "name": "Study_Criteria",
+          "label": "Study Criteria",
+          "help": "List of criteria for inclusion/exclusion for the study (Example: 'Include: Clinical P. falciparum infection; Exclude: Seropositive for HIV')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/c0dd60f3-bcf6-44be-b1e3-7adc27cedda5",
+          "name": "Contact_Information",
+          "label": "Contact Information",
+          "help": "Full name and other relevant contact information of the corresponding author for this dataâthat is, the person who is legally responsible for data collection and release. (Example: 'Peter Stibbons, +1-987-654-3210')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/96f054e4-b80a-462b-a995-7991928885ff",
+          "name": "Contact_Email",
+          "label": "Contact Email",
+          "help": "Email address of the corresponding author for this dataâthat is, the person who is legally responsible for data collection and release. This email will be used as the account name which has access to this data record in NCBI.",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/3ff98b64-88bc-4b84-b2a9-10c55dbaf5ce",
+          "name": "Lab_Name",
+          "label": "Lab Name",
+          "help": "Department of corresponding author responsible for data collection (Example: 'Department of Planar Immunology')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/2f5e4303-ceb3-4156-91ca-9fe3f6634af1",
+          "name": "Lab_Address",
+          "label": "Lab Address",
+          "help": "Institutional address of corresponding author responsible for data collection (Example: 'School of Medicine, Unseen University, Ankh-Morpork, Disk World')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "http://xmlns.com/foaf/0.1/publications",
+          "name": "Relevant_Publications",
+          "label": "Relevant Publications",
+          "help": "Publications describing the rationale and/or outcome of the study, using PubMed or other persistent globally unique identifiers (Example: 'PMID85642')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/d2f6f0d4-c2d5-44e3-b467-307bc8539de1",
+          "name": "Sample_Name",
+          "label": "Sample Name",
+          "help": "Sample Name is a name that you choose for the sample. It can have any format, but we suggest that you make it concise, unique and consistent within your lab, and as informative as possible. Every Sample Name from a single Submitter must be unique.",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/7d7154aa-2507-4ac5-b17d-21e36bf709ba",
+          "name": "Sample_Title",
+          "label": "Sample Title",
+          "help": "Title of the sample",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/5b5276ba-52fe-4725-9c7a-485a46b979f3",
+          "name": "Organism",
+          "label": "Organism",
+          "help": "Binomial designation of experimental subject's species (Example: 'Homo sapiens')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/a0e35dfc-f2d9-4544-b0bb-f44c03446281",
+          "name": "Isolate",
+          "label": "Isolate",
+          "help": "identification or description of the specific individual from which this sample was obtained (Example: 'SUB856413')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "http://xmlns.com/foaf/0.1/age",
+          "name": "Age",
+          "label": "Age",
+          "help": "Age at the time of sampling; relevant scale depends on species and study, e.g. could be seconds for amoebae or centuries for trees. Provide the SI unit after the value (Examples: '65 years', '23 weeks', '15 days', '3.2 seconds'))",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/f5854bbc-2a4d-47f6-ac4e-64b56e455def",
+          "name": "Biomaterial_Provider",
+          "label": "Biomaterial Provider",
+          "help": "name and address of the lab or PI, or a culture collection identifier",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/7528ed15-7eaf-4ef2-9b26-6543fb163c35",
+          "name": "Sex",
+          "label": "Sex",
+          "help": "Physical sex of sampled organism (Example: 'Female')",
+          "type": [
+            "Select"
+          ],
+          "required": true,
+          "multiple": false,
+          "values": [
+            "male",
+            "female",
+            "pooled male and female",
+            "neuter",
+            "hermaphrodite",
+            "intersex",
+            "not determined",
+            "missing",
+            "not applicable",
+            "not collected"
+          ]
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/159b14f5-b5e9-4362-a92e-b310a4e3fa93",
+          "name": "Tissue",
+          "label": "Tissue",
+          "help": "The actual tissue sampled, e.g. lymph node, liver, peripheral blood (Example: 'Bone marrow')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/1b6754d2-b1ef-404d-9bd1-b5d559a115c4",
+          "name": "Cell_Line",
+          "label": "Cell Line",
+          "help": "Name of the cell line of the sample, or from which the sample was obtained. (Example: HEK293)",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/9d76ca8c-3663-49bd-9ce7-2c15350aa93e",
+          "name": "Cell_Type",
+          "label": "Cell Type",
+          "help": "Type of cell of the sample or from which the sample was obtained. (Example: PBMC)",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/46f2de26-8fa5-4f34-81f4-20f89757ad2a",
+          "name": "Cell_Subtype",
+          "label": "Cell Subtype",
+          "help": "Sub type of cell of the sample or from which the sample was obtain (Example: 'B cell')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/9c68c880-3833-4ea9-9bc1-e36dbbc5fa30",
+          "name": "Culture_Collection",
+          "label": "Culture Collection",
+          "help": "Name of source institute and unique culture identifier. See the description for the proper format and list of allowed institutes, http://www.insdc.org/controlled-vocabulary-culturecollection-qualifier. Format is Value format: \"<institution-code>:[<collection-code>:]<culture_id>\" (Example: 'ATCC:26370')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/1e933091-9bb7-4038-828e-3fc19c455172",
+          "name": "Development_Stage",
+          "label": "Development Stage",
+          "help": "Developmental stage at the time of sampling (Example: '1 day after inoculation')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/c599e063-9217-443f-87df-8071b740f0aa",
+          "name": "Disease",
+          "label": "Disease",
+          "help": "List of diseases diagnosed; can include multiple diagnoses. Select from Disease Ontology (https://bioportal.bioontology.org/ontologies/DOID/?p=classes). (Example: 'adrenal medulla carcinoma, myeloid sarcoma')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/c675bda2-95e0-4b76-8007-02f7b7ba484d",
+          "name": "Disease_Stage",
+          "label": "Disease Stage",
+          "help": "Stage of disease at the time of sampling.",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/8548eac4-328d-4ccc-bf9a-6ddb38336f6f",
+          "name": "Ethnicity",
+          "label": "Ethnicity",
+          "help": "IHMC code for ethnicity of the subject, integer or text (Examples: 01=Hispanic or Latino or Spanish, 02=Non-Hispanic or Non-Latino or Non-Spanish)",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/394dd33b-9d6d-4844-8bf2-a0b638f97c77",
+          "name": "Health_State",
+          "label": "Health State",
+          "help": "Health or disease status of sample at time of collection",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/46d1b879-5213-464b-a971-f81acd4e2fa9",
+          "name": "Karyotype",
+          "label": "Karyotype",
+          "help": "The number and visual appearance of the chromosomes in the cell nuclei of an organism or species.",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/36b12ce1-b260-4b71-b36f-6b5756b45ec9",
+          "name": "Phenotype",
+          "label": "Phenotype",
+          "help": "Phenotype of sampled organism.",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/543aa730-de51-4c1a-b1e7-0d344b1abf30",
+          "name": "Population",
+          "label": "Population",
+          "help": "The full, unabbreviated population descriptor from the Coriell Institute",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/56f3caa2-ca0f-4e72-b9ad-4beaa0247dc7",
+          "name": "Race",
+          "label": "Race",
+          "help": "Racial group of subject (as defined by NIH) (Examples: 'White', 'American Indian or Alaska Native', 'Black', 'Asian', 'Native Hawaiian or Other Pacific Islander', 'Other')",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/abc350fa-0d0f-4c2c-9e27-e27f3172fe2f",
+          "name": "Sample_Type",
+          "label": "Sample Type",
+          "help": "Sample type, such as cell culture, mixed culture, tissue sample, whole organism, single cell, metagenomic assembly",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/a246e5e3-7abb-42b5-ad76-f592982d3c13",
+          "name": "Treatment",
+          "label": "Treatment",
+          "help": "Description of the treatment protocol for the subject from whom this sample was obtained",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/2ed9bb89-519f-4844-9e49-415e5f4cd041",
+          "name": "Sample_Description",
+          "label": "Sample Description",
+          "help": "Description of the sample",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/417bce6e-0a00-4b91-ba3b-f7deb2eb3057",
+          "name": "Sample_Name_sra",
+          "label": "Sample Name Sra",
+          "help": "BioSample Accession or Sample Name assigned by submitter, unique within study. This needs to match the Sample Name in the corresponding BioSample entry. (Example: 'SUP52415')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/2d1da4e3-ced9-430e-a35e-f47d82f7dd3b",
+          "name": "Library_ID",
+          "label": "Library ID",
+          "help": "Short unique identifier for the sequencing library. Each Library ID MUST be unique! (Example: 'Homo-sapiens-UTSoM-T19273')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/ed0cbe9e-8df9-432b-8ce6-63d849857083",
+          "name": "Title",
+          "label": "Title",
+          "help": "Short description that will identify the dataset on public pages. A clear and concise formula for the title is of the form:  {methodology} of {organism}: {sample info}  (Example: `RNA-Seq of mus musculus: adult female spleen`)",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/4023b4ce-80ce-4c08-be86-84f7a24f9d11",
+          "name": "Library_Strategy",
+          "label": "Library Strategy",
+          "help": "Sequencing strategy used in the experiment (Example: 'RNA-Seq')",
+          "type": [
+            "Select"
+          ],
+          "required": true,
+          "multiple": false,
+          "values": [
+            "WGA",
+            "WGS",
+            "WXS",
+            "RNA-Seq",
+            "miRNA-Seq",
+            "WCS",
+            "CLONE",
+            "POOLCLONE",
+            "AMPLICON",
+            "CLONEEND",
+            "FINISHING",
+            "ChIP-Seq",
+            "MNase-Seq",
+            "DNase-Hypersensitivity",
+            "Bisulfite-Seq",
+            "Tn-Seq",
+            "EST",
+            "FL-cDNA",
+            "CTS",
+            "MRE-Seq",
+            "MeDIP-Seq",
+            "MBD-Seq",
+            "Synthetic-Long-Read",
+            "ATAC-seq",
+            "ChIA-PET",
+            "FAIRE-seq",
+            "Hi-C",
+            "ncRNA-Seq",
+            "RAD-Seq",
+            "RIP-Seq",
+            "SELEX",
+            "ssRNA-seq",
+            "Targeted-Capture",
+            "Tethered Chromatin Conformation Capture",
+            "OTHER"
+          ]
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/0fdba7e4-0d6e-446c-a38e-783371be275e",
+          "name": "Library_Source",
+          "label": "Library Source",
+          "help": "Type of genetic source material sequenced in the experiment (Example: 'Metagenomic')",
+          "type": [
+            "Select"
+          ],
+          "required": true,
+          "multiple": false,
+          "values": [
+            "GENOMIC",
+            "TRANSCRIPTOMIC",
+            "METAGENOMIC",
+            "METATRANSCRIPTOMIC",
+            "SYNTHETIC",
+            "VIRAL RNA",
+            "GENOMIC SINGLE CELL",
+            "TRANSCRIPTOMIC SINGLE CELL",
+            "OTHER"
+          ]
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/bd7c7c06-0266-409a-bba7-1bb1d165b128",
+          "name": "Library_Selection",
+          "label": "Library Selection",
+          "help": "Method of selection or enrichment used in the Experiment (Example: 'RANDOM-PCR')",
+          "type": [
+            "Select"
+          ],
+          "required": true,
+          "multiple": false,
+          "values": [
+            "RANDOM",
+            "PCR",
+            "RANDOM PCR",
+            "RT-PCR",
+            "HMPR",
+            "MF",
+            "CF-S",
+            "CF-M",
+            "CF-H",
+            "CF-T",
+            "MDA",
+            "MSLL",
+            "cDNA",
+            "ChIP",
+            "MNase",
+            "DNAse",
+            "Hybrid Selection",
+            "Reduced Representation",
+            "Restriction Digest",
+            "5-methylcytidine antibody",
+            "MBD2 protein methyl-CpG binding domain",
+            "CAGE",
+            "RACE",
+            "size fractionation",
+            "Padlock probes capture method",
+            "other",
+            "unspecified",
+            "cDNA_oligo_dT",
+            "cDNA_randomPriming",
+            "Inverse rRNA",
+            "Oligo-dT",
+            "PolyA",
+            "repeat fractionation"
+          ]
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/480f3f8a-d94b-45a9-b8cd-fbe8e99bb5aa",
+          "name": "Library_Layout",
+          "label": "Library Layout",
+          "help": "Number, order, orientation, and distance of associated reads (Example: '2 Kbp paired ends')",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/fb86be44-87ea-42e2-a708-d872dfc855b4",
+          "name": "Platform",
+          "label": "Platform",
+          "help": "Designation of sequencing instrument used (Example: 'Alumina LoSeq 1000')",
+          "type": [
+            "Select"
+          ],
+          "required": true,
+          "multiple": false,
+          "values": [
+            "LS454",
+            "ABI_SOLID",
+            "BGISEQ",
+            "CAPILLARY",
+            "COMPLETE_GENOMICS",
+            "HELICOS",
+            "ILLUMINA",
+            "ION_TORRENT",
+            "OXFORD_NANOPORE",
+            "PACBIO_SMRT",
+            "Other"
+          ]
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/6b19fe93-63c4-4e34-a844-e4f160a0b36e",
+          "name": "Instrument_Model",
+          "label": "Instrument Model",
+          "help": "Model identifier of the instrument used to perform the sequencing. Acceptable instrument models may be viewed at https://sramongo.readthedocs.io/en/latest/sraConstants.html#instrument-models. (Examples: 'Illumina HiSeq 2000', '",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/7dc16b80-c3c6-4259-8717-84e7a21bbd8a",
+          "name": "Design_Description",
+          "label": "Design Description",
+          "help": "Free-form description of the methods used to create the sequencing library; a brief 'materials and methods' section.",
+          "type": [
+            "Text"
+          ],
+          "required": true,
+          "multiple": false
+        },
+        {
+          "id": null,
+          "name": "Optional_SRA_Attribute",
+          "label": "Optional SRA Attribute-Value",
+          "help": "Enter the name of the optional attribute, followed by the value of that attribute. Add additional attributes as needed.",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": true
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/4fb86884-a60f-4459-96be-4a1f18dafd34",
+          "name": "File_Type",
+          "label": "File Type",
+          "help": "Type of the raw data file. Must be one of the acceptable file types, including bam, sra, kar, srf, sff, fastq, tab, 454_native, Helicos_native, SOLiD_native_csfasta, SOLiD_native_qual, SOLiD_native, PacBio_HDF5, CompleteGenomics_native, bam_header, reference_fasta. For multiple files of different types, enter one File Type per file, separated by commas.",
+          "type": [
+            "Select"
+          ],
+          "required": true,
+          "multiple": false,
+          "values": [
+            "sra-run-fastq",
+            "sra-run-bam",
+            "sra-run-sff",
+            "sra-run-Helicos_native",
+            "sra-run-PacBio_HDF5",
+            "sra-run-CompleteGenomics_native",
+            "sra-run-OxfordNanopore_native"
+          ]
+        },
+        {
+          "id": null,
+          "name": "File_Name",
+          "label": "File Name",
+          "help": "Enter the name of the raw data file into the Value field of each attribute-value pair. Each name must match the name of a file selected for upload. (The attributes are automatically named as 'filename1', 'filename2', etc..)",
+          "type": [
+            "Text"
+          ],
+          "required": false,
+          "multiple": true
+        },
+        {
+          "id": null,
+          "name": "Template_Annotations",
+          "label": "Template Annotations",
+          "help": "An overview of this template, with an optional field for user notes.",
+          "type": [
+            "TextArea"
+          ],
+          "required": false,
+          "multiple": false
+        },
+        {
+          "id": "https://schema.metadatacenter.org/properties/c8da19ce-de5c-4f74-87be-3c6ed0d15be3",
+          "name": "User_Annotations",
+          "label": "User Annotations",
+          "help": "Enter any notes you wish to make about this metadata instance (e.g., how it was created, any open questions, or notes for the historical record.) The information will not be included with your submission to NCBI.",
+          "type": [
+            "TextArea"
+          ],
+          "required": false,
+          "multiple": false
+        }
+      ]
+    }
+  },
+  "enabledClasses": [
+    "Dataset"
+  ]
+}
