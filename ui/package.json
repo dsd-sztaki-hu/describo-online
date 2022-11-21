@@ -3,7 +3,7 @@
     "version": "0.26.4",
     "private": true,
     "scripts": {
-        "develop": "npm install && webpack serve -c webpack-development.js",
+        "develop": "npm install && webpack serve --open --allowed-hosts all -c webpack-development.js",
         "build": "npm install && webpack -c webpack-production.js"
     },
     "dependencies": {
